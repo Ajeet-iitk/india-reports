@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Transparency Portal - Government & NGO Reports</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .info-banner {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: white;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            outline: none;
+            transition: transform 0.3s ease;
+        }
+
+        .search-box:focus {
+            transform: scale(1.02);
+        }
+
+        .section-header {
+            color: white;
+            font-size: 2rem;
+            margin: 40px 0 20px 0;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .category-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .reports-list {
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+
+        .reports-list.active {
+            display: block;
+        }
+
+        .report-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .report-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .report-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .report-link:hover {
+            color: #764ba2;
+        }
+
+        .arrow {
+            font-size: 1.2rem;
+        }
+
+        .toggle-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .no-results {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-top: 50px;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 2000px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🇮🇳 India Transparency Portal</h1>
+            <p>Government Reports & Independent NGO Research - Citizen Audit & Analysis</p>
+        </header>
+
+        <div class="info-banner">
+            <strong>📌 How to Navigate:</strong> This portal aggregates official government reports and independent NGO research. Click any category card to expand reports. Use search to find specific documents. All links direct to official sources for authenticity and transparency.
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search reports (e.g., NFHS, Budget, CSE, Pratham, CRY...)">
+        </div>
+
+        <h2 class="section-header">📊 Government Reports</h2>
+
+        <div class="categories" id="categoriesContainer">
+            <!-- Health & Social Surveys -->
+            <div class="category-card" data-category="health">
+                <div class="category-header">
+                    <div class="category-icon">🏥</div>
+                    <div class="category-title">Health & Social Surveys</div>
+                </div>
+                <div class="category-description">
+                    National health statistics, demographic data, and family welfare surveys
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('health')">View Reports</button>
+                <div class="reports-list" id="health-reports">
+                    <div class="report-item">
+                        <a href="https://www.nfhsiips.in/" target="_blank" class="report-link">
+                            National Family Health Survey (NFHS) Portal <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://main.mohfw.gov.in/basicpage-14" target="_blank" class="report-link">
+                            NFHS-5 Compendium of Factsheets <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://main.mohfw.gov.in/" target="_blank" class="report-link">
+                            Ministry of Health & Family Welfare <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://nhm.gov.in/" target="_blank" class="report-link">
+                            National Health Mission Reports <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Economic & Finance -->
+            <div class="category-card" data-category="economy">
+                <div class="category-header">
+                    <div class="category-icon">💰</div>
+                    <div class="category-title">Economic & Finance</div>
+                </div>
+                <div class="category-description">
+                    Economic surveys, budget documents, RBI & CAG reports
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('economy')">View Reports</button>
+                <div class="reports-list" id="economy-reports">
+                    <div class="report-item">
+                        <a href="https://www.indiabudget.gov.in/economicsurvey/" target="_blank" class="report-link">
+                            Economic Survey of India 2024-25 <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.indiabudget.gov.in/" target="_blank" class="report-link">
+                            Union Budget Documents <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://rbi.org.in/Scripts/AnnualReportMainDisplay.aspx" target="_blank" class="report-link">
+                            RBI Annual Reports <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.cag.gov.in/en/audit-report" target="_blank" class="report-link">
+                            CAG Audit Reports <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Governance & Transparency -->
+            <div class="category-card" data-category="governance">
+                <div class="category-header">
+                    <div class="category-icon">⚖️</div>
+                    <div class="category-title">Governance & Transparency</div>
+                </div>
+                <div class="category-description">
+                    RTI Commission, Anti-corruption bodies, Accountability reports
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('governance')">View Reports</button>
+                <div class="reports-list" id="governance-reports">
+                    <div class="report-item">
+                        <a href="https://cic.gov.in/" target="_blank" class="report-link">
+                            Central Information Commission (CIC) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://cic.gov.in/circular-reports-conventions" target="_blank" class="report-link">
+                            CIC Annual Reports & Statistics <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://cvc.gov.in/" target="_blank" class="report-link">
+                            Central Vigilance Commission (CVC) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://cbi.gov.in/" target="_blank" class="report-link">
+                            Central Bureau of Investigation (CBI) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Census & Statistics -->
+            <div class="category-card" data-category="census">
+                <div class="category-header">
+                    <div class="category-icon">📊</div>
+                    <div class="category-title">Census & Statistics</div>
+                </div>
+                <div class="category-description">
+                    Population data, statistical reports, demographic surveys
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('census')">View Reports</button>
+                <div class="reports-list" id="census-reports">
+                    <div class="report-item">
+                        <a href="https://censusindia.gov.in/" target="_blank" class="report-link">
+                            Census of India <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://mospi.gov.in/" target="_blank" class="report-link">
+                            Ministry of Statistics (MOSPI) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.data.gov.in/" target="_blank" class="report-link">
+                            Open Government Data (OGD) Platform <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="category-card" data-category="education">
+                <div class="category-header">
+                    <div class="category-icon">📚</div>
+                    <div class="category-title">Education</div>
+                </div>
+                <div class="category-description">
+                    Educational statistics, literacy programs, AISHE reports
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('education')">View Reports</button>
+                <div class="reports-list" id="education-reports">
+                    <div class="report-item">
+                        <a href="https://www.education.gov.in/" target="_blank" class="report-link">
+                            Ministry of Education <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://aishe.gov.in/" target="_blank" class="report-link">
+                            All India Survey on Higher Education (AISHE) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://udiseplus.gov.in/" target="_blank" class="report-link">
+                            UDISE+ (School Education Statistics) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment & Climate -->
+            <div class="category-card" data-category="environment">
+                <div class="category-header">
+                    <div class="category-icon">🌱</div>
+                    <div class="category-title">Environment & Climate</div>
+                </div>
+                <div class="category-description">
+                    Environmental reports, forest surveys, pollution data
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('environment')">View Reports</button>
+                <div class="reports-list" id="environment-reports">
+                    <div class="report-item">
+                        <a href="https://moef.gov.in/" target="_blank" class="report-link">
+                            Ministry of Environment, Forest & Climate Change <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://cpcb.nic.in/" target="_blank" class="report-link">
+                            Central Pollution Control Board <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://fsi.nic.in/" target="_blank" class="report-link">
+                            Forest Survey of India <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agriculture & Rural -->
+            <div class="category-card" data-category="agriculture">
+                <div class="category-header">
+                    <div class="category-icon">🌾</div>
+                    <div class="category-title">Agriculture & Rural Development</div>
+                </div>
+                <div class="category-description">
+                    Agricultural statistics, rural programs, farmer welfare
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('agriculture')">View Reports</button>
+                <div class="reports-list" id="agriculture-reports">
+                    <div class="report-item">
+                        <a href="https://agricoop.nic.in/" target="_blank" class="report-link">
+                            Ministry of Agriculture & Farmers Welfare <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://rural.nic.in/" target="_blank" class="report-link">
+                            Ministry of Rural Development <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://niti.gov.in/" target="_blank" class="report-link">
+                            NITI Aayog Reports <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Law & Justice -->
+            <div class="category-card" data-category="justice">
+                <div class="category-header">
+                    <div class="category-icon">⚖️</div>
+                    <div class="category-title">Law & Justice</div>
+                </div>
+                <div class="category-description">
+                    Law Commission reports, crime statistics, judicial data
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('justice')">View Reports</button>
+                <div class="reports-list" id="justice-reports">
+                    <div class="report-item">
+                        <a href="https://lawcommissionofindia.nic.in/" target="_blank" class="report-link">
+                            Law Commission of India <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://doj.gov.in/" target="_blank" class="report-link">
+                            Department of Justice <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://ncrb.gov.in/" target="_blank" class="report-link">
+                            Crime in India Reports (NCRB) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">🔬 Independent NGO & Research Reports</h2>
+
+        <div class="categories">
+            <!-- Environment Research -->
+            <div class="category-card" data-category="ngo-environment">
+                <div class="category-header">
+                    <div class="category-icon">🌍</div>
+                    <div class="category-title">Environment & Climate Research</div>
+                </div>
+                <div class="category-description">
+                    Independent environmental analysis, climate reports, sustainability research
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('ngo-environment')">View Reports</button>
+                <div class="reports-list" id="ngo-environment-reports">
+                    <div class="report-item">
+                        <a href="https://www.cseindia.org/" target="_blank" class="report-link">
+                            Centre for Science and Environment (CSE) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.cseindia.org/reports" target="_blank" class="report-link">
+                            CSE Research Reports & Publications <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.downtoearth.org.in/" target="_blank" class="report-link">
+                            Down To Earth Magazine (CSE Publication) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Child Rights & Education -->
+            <div class="category-card" data-category="ngo-children">
+                <div class="category-header">
+                    <div class="category-icon">👶</div>
+                    <div class="category-title">Child Rights & Education NGOs</div>
+                </div>
+                <div class="category-description">
+                    Child welfare, education quality, rights advocacy reports
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('ngo-children')">View Reports</button>
+                <div class="reports-list" id="ngo-children-reports">
+                    <div class="report-item">
+                        <a href="https://www.cry.org/" target="_blank" class="report-link">
+                            Child Rights and You (CRY) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.cry.org/financials/" target="_blank" class="report-link">
+                            CRY Annual Reports & Financial Transparency <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://pratham.org/" target="_blank" class="report-link">
+                            Pratham Education Foundation <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://pratham.org/about/annual-reports/" target="_blank" class="report-link">
+                            Pratham Annual Reports <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="http://www.asercentre.org/" target="_blank" class="report-link">
+                            ASER (Annual Status of Education Report) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Development & Social Justice -->
+            <div class="category-card" data-category="ngo-development">
+                <div class="category-header">
+                    <div class="category-icon">🤝</div>
+                    <div class="category-title">Development & Social Justice</div>
+                </div>
+                <div class="category-description">
+                    Poverty alleviation, inequality research, human rights reports
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('ngo-development')">View Reports</button>
+                <div class="reports-list" id="ngo-development-reports">
+                    <div class="report-item">
+                        <a href="https://www.actionaidindia.org/" target="_blank" class="report-link">
+                            ActionAid India <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.giveindia.org/" target="_blank" class="report-link">
+                            GiveIndia (Verified Charities Platform) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.akshayapatra.org/" target="_blank" class="report-link">
+                            Akshaya Patra Foundation <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.helpageindia.org/" target="_blank" class="report-link">
+                            HelpAge India <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policy & Governance Research -->
+            <div class="category-card" data-category="ngo-policy">
+                <div class="category-header">
+                    <div class="category-icon">📋</div>
+                    <div class="category-title">Policy Research & Think Tanks</div>
+                </div>
+                <div class="category-description">
+                    Independent policy analysis, governance research, transparency initiatives
+                </div>
+                <button class="toggle-btn" onclick="toggleReports('ngo-policy')">View Reports</button>
+                <div class="reports-list" id="ngo-policy-reports">
+                    <div class="report-item">
+                        <a href="https://www.prsindia.org/" target="_blank" class="report-link">
+                            PRS Legislative Research <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://accountabilityindia.in/" target="_blank" class="report-link">
+                            Accountability Initiative (Centre for Policy Research) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://www.orfonline.org/" target="_blank" class="report-link">
+                            Observer Research Foundation (ORF) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                    <div class="report-item">
+                        <a href="https://thewire.in/" target="_blank" class="report-link">
+                            The Wire (Independent Journalism) <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults">
+            No reports found matching your search. Try different keywords.
+        </div>
+
+        <footer>
+            <p>💡 <strong>Why This Portal Matters:</strong> Transparency enables citizens to hold governments and institutions accountable</p>
+            <p style="margin-top: 10px;">All links verified and direct to official sources • Last updated: December 2024</p>
+            <p style="margin-top: 10px; opacity: 0.8;"><strong>Note:</strong> NGO reports provide independent perspectives to complement government data</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleReports(category) {
+            const reportsList = document.getElementById(`${category}-reports`);
+            reportsList.classList.toggle('active');
+        }
+
+        const searchBox = document.getElementById('searchBox');
+        const categoriesContainer = document.querySelectorAll('.categories');
+        const noResults = document.getElementById('noResults');
+
+        searchBox.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const categoryCards = document.querySelectorAll('.category-card');
+            let visibleCount = 0;
+
+            categoryCards.forEach(card => {
+                const categoryText = card.textContent.toLowerCase();
+                if (categoryText.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.category-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${(index % 8) * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
